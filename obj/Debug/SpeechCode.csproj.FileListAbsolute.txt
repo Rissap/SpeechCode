@@ -1,0 +1,8 @@
+D:\Projects\SpeechCode\obj\Debug\SpeechCode.csprojResolveAssemblyReference.cache
+D:\Projects\SpeechCode\obj\Debug\SpeechCode.csproj.GenerateResource.Cache
+D:\Projects\SpeechCode\bin\Debug\SpeechCode.exe.config
+D:\Projects\SpeechCode\bin\Debug\SpeechCode.exe
+D:\Projects\SpeechCode\bin\Debug\SpeechCode.pdb
+D:\Projects\SpeechCode\obj\Debug\SpeechCode.exe
+D:\Projects\SpeechCode\obj\Debug\SpeechCode.pdb
+D:\Projects\SpeechCode\obj\Debug\SpeechCode.MainForm.resources
