@@ -27,7 +27,7 @@ namespace SpeechCode
 	//return concrete object like int var or while loop
 	public abstract class ObjectFactory
 	{
-		public abstract CodeObject get_object(string type);
+		public abstract CodeObject get_object(string type, string n, string v);
 		
 		public abstract string type();
 	}
@@ -58,11 +58,11 @@ namespace SpeechCode
 
 	public class VariableFactory : ObjectFactory
 	{		
-		public override CodeObject get_object(string type)
+		public override CodeObject get_object(string type, string n, string v)
 		{
 			if (type == "int")
 			{
-				return new IntVar();
+				return new IntVar(n, v);
 			}
 			else return null;
 		}
@@ -75,7 +75,7 @@ namespace SpeechCode
 	
 	public class StructureFactory : ObjectFactory
 	{
-		public override CodeObject get_object(string type)
+		public override CodeObject get_object(string type, string n, string v)
 		{
 			return null;
 		}
@@ -86,13 +86,35 @@ namespace SpeechCode
 		}
 	}
 	
+	/*****************OBJECTS DATA*****************/
+	
+	public class VarData 
+	{
+		public string name;
+		public string values;
+		public VarData (string n, string v)
+		{
+			this.name = n;
+			this.values = v;
+		}
+	}
+	
+	
 	/*************OBJECTS REALIZATION*************/
 	
 	public class IntVar : CodeObject
 	{
+		public VarData data;
+		public string type = "int";
+		
+		public IntVar(string n, string v)
+		{
+			this.data = new VarData(n, v);
+		}
+		
 		public override string get_text()
 		{
-			return "Ы";
+			return this.type+" "+this.data.name+" = "+this.data.values+";";
 		}
 	}
 	
@@ -107,12 +129,15 @@ namespace SpeechCode
 		public MainForm()
 		{InitializeComponent();}
 		
+		public int latest = 0;
+		
 		public string row;
 		public string[] separated = new string[10];
 
 		public Factory tmpFactory = new Factory();
 		public ObjectFactory tmpObjectFactory;
 		public CodeObject tmpCodeObject;
+		public CodeObject[] storage = new CodeObject[100];
 		
 		void RecognizeText(object sender, EventArgs e)
 		{
@@ -129,14 +154,34 @@ namespace SpeechCode
 			if (this.tmpObjectFactory!=null)
 			{
 				//get concrete object: loop variable class etc
-				this.tmpCodeObject = this.tmpObjectFactory.get_object(this.separated[1]);
+				this.tmpCodeObject = this.tmpObjectFactory.get_object(this.separated[1], this.separated[2], this.separated[4]);
 				
 				if (this.tmpCodeObject!=null){
-					this.outputLabel.Text = "Done!";
+					//save right part of code into the mass
+					this.storage[this.latest] = this.tmpCodeObject; 
+					this.latest++;
+					
+					//call foo to refresh code in text editor
+					this.show_code();
 						
 				} else this.outputLabel.Text = "Unrecognized type of "+this.tmpObjectFactory.type();
 				
 			} else this.outputLabel.Text = "Unrecognized type of code objects";
+			
+		}
+		
+		public void show_code()
+		{
+			this.outputLabel.Text = "";
+			
+			for(int i=0; i<=this.latest; i++)
+			{
+				if (this.storage[i]!=null)
+				{
+					this.outputLabel.Text += this.storage[i].get_text();
+					this.outputLabel.Text += '\n';
+				}
+			}
 			
 		}
 	}
