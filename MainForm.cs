@@ -17,6 +17,7 @@ namespace SpeechCode
 	/****************************************/
 	/*              FACTORY                 */
 	/****************************************/
+///////////////////////////////////////////////////////
 	
 	//create factory for returning different factories of code objects
 	public abstract class FactoryFactory
