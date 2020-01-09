@@ -118,13 +118,44 @@ namespace SpeechCode
 			return this.type+" "+this.data.name+" = "+this.data.values+";";
 		}
 	}
-	
-	
+
+	public class FloatVar : CodeObject
+	{
+		public VarData data;
+		public string type = "float";
+
+		public FloatVar(string n, string v)
+		{
+			this.data = new VarData(n, v);
+		}
+
+		public override string get_text()
+		{
+			return this.type + " " + this.data.name + " = " + this.data.values + ";";
+		}
+	}
+
+	public class StringVar : CodeObject
+	{
+		public VarData data;
+		public string type = "string";
+
+		public StringVar(string n, string v)
+		{
+			this.data = new VarData(n, v);
+		}
+
+		public override string get_text()
+		{
+			return this.type + " " + this.data.name + " = " + this.data.values + ";";
+		}
+	}
+
 	/****************************************/
 	/*              MAIN FORM               */
 	/****************************************/
-	
-	
+
+
 	public partial class MainForm : Form
 	{
 		public MainForm()
